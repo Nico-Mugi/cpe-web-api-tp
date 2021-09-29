@@ -5,7 +5,7 @@
         private $element;
         private $yin;
 
-        public function __construct(int $code, string $nom,string $element,string $yin) {
+        public function __construct(string $code, string $nom,string $element,string $yin) {
             $this->__set("code", $code);
             $this->__set("nom", $nom);
             $this->__set("element", $element);
