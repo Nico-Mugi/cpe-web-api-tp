@@ -78,6 +78,32 @@
             return $pathos;
         }
 
+
+        public function insertUser(String $username,String $password ,String $mail){
+            $requete = "INSERT INTO user VALUES (:user,:pass,:mail);";
+            $resultats = $this->conn->prepare($requete);
+            $resultats->bindValue(":user", $username);
+            $encrypted_password = "zdidaojzai";
+            $resultats->bindValue(":pass", $encrypted_password);
+            $resultats->bindValue(":mail", $mail);
+            try {
+                $resultats->execute();
+                return 0;
+            } catch (\Throwable $th) {
+                echo $th;
+                return -1;
+            }
+        }
+
+        public function getUserPassword(String $username){
+            $requete = "SELECT * FROM user where username =:user ";
+            $resultats = $this->conn->prepare($requete);
+            $resultats->bindValue(":user", $username);
+            $resultats->execute();
+            $password = $resultats->fetchAll(PDO::FETCH_ASSOC);
+            return $password ;
+        }
+
         
 
     }
