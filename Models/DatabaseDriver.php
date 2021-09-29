@@ -1,15 +1,16 @@
 <?php
+    include 'config.php';
     include 'Symptome.php';
     include 'Patho.php';
     include 'Meridien.php';
     class DatabaseDriver{
   
         // specify your own database credentials
-        private $host = "localhost";
-        private $db_name = "postgres";
-        private $username = "postgres";
-        private $port = "5432";
-        private $password = "loi";
+        private $host = HOST;
+        private $db_name = DBNAME;
+        private $username = USERNAME;
+        private $port = PORT;
+        private $password = PASSWORD;
         public $conn;
 
         
