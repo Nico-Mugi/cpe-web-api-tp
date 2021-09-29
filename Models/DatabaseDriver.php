@@ -83,8 +83,7 @@
             $requete = "INSERT INTO user VALUES (:user,:pass,:mail);";
             $resultats = $this->conn->prepare($requete);
             $resultats->bindValue(":user", $username);
-            $encrypted_password = "zdidaojzai";
-            $resultats->bindValue(":pass", $encrypted_password);
+            $resultats->bindValue(":pass", $password);
             $resultats->bindValue(":mail", $mail);
             try {
                 $resultats->execute();
