@@ -2,32 +2,20 @@
     include 'Models/DatabaseDriver.php';
     $dbd = new DatabaseDriver;
     $keywordChosen = "aisselle";
-    echo("Mot-clé : ".$keywordChosen."<br/>");
-    $pathosKeyed = $dbd->getPathosByKeyWord($keywordChosen);
-    foreach($pathosKeyed as $patho){
-        echo($patho->__get("desc"));
-        echo(" :: ");
-        echo($patho->__get("mer")->__get("nom"));
-        foreach($patho->__get("symptomes") as $symp){
-            echo("<br/>");
-            echo($symp->__get("desc"));
-        }
-        echo("<br/>");
-        echo("<br/>");
-        echo("<br/>");
-    }
-    echo("-------------------------------------------------------------");
     $pathos = $dbd->getAllPatho();
     foreach($pathos as $patho){
-        echo($patho->__get("desc"));
-        echo(" :: ");
-        echo($patho->__get("mer")->__get("nom"));
+        echo('<div class="pathologie_card">');
+        echo('<h3>'.ucfirst($patho->__get("desc")).'</h3>');
+        echo('<p class="meridien">Méridien : '.$patho->__get("mer")->__get("nom").'</p>');
+        echo('<p class="symptomes_title">Symptômes<span class="chevron down" onclick="showSymptomes(this)"></span></p>');
+        echo('<ul class="sympthomes_container">');
+        $i = 0;
         foreach($patho->__get("symptomes") as $symp){
-            echo("<br/>");
-            echo($symp->__get("desc"));
+            echo('<li>'.$symp->__get("desc").'</li>');
+            if($i < count($patho->__get("symptomes")) - 1) echo('<hr>');
+            $i ++;
         }
-        echo("<br/>");
-        echo("<br/>");
-        echo("<br/>");
+        echo('</ul>');
+        echo('</div>');
     }
-?>
+?>    
