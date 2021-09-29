@@ -5,11 +5,11 @@
     class DatabaseDriver{
   
         // specify your own database credentials
-        private $host = "127.0.0.1";
+        private $host = "localhost";
         private $db_name = "postgres";
         private $username = "loi";
         private $port = "5432";
-        private $password = "loiloi";
+        private $password = "loi";
         public $conn;
 
         
