@@ -1,6 +1,6 @@
 <?php
 include 'Models/DatabaseDriver.php';
-session_start()
+session_start();
 
 if (isset($_POST['log_user'])) {
     $username = $_POST['username'];
