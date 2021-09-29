@@ -62,6 +62,31 @@
             return $pathos;
         }
 
+        public function getAllSymptomes(){
+            $requete = "SELECT * FROM symptome WHERE ids > :mon_marqueur_1";
+            $resultats = $this->conn->prepare($requete);
+            $resultats->bindValue(":mon_marqueur_1", 5);
+            $resultats->execute();
+            $lines = $resultats->fetchAll(PDO::FETCH_ASSOC);
+            $symptomes = [];
+            foreach($lines as $line){
+                array_push($symptomes, new Symptome($line["ids"], $line["desc"]));
+            }
+            return $symptomes;
+        }
+
+        public function getAllMeridien(){
+            $requete = "SELECT * FROM meridien ";
+            $resultats = $this->conn->prepare($requete);
+            $resultats->execute();
+            $lines = $resultats->fetchAll(PDO::FETCH_ASSOC);
+            $meridiens = [];
+            foreach($lines as $line){
+                array_push($meridiens, new Meridien($line["code"],$line["nom"],$line["element"], $line["yin"]));
+            }
+            return $meridiens;
+        }
+
         public function getPathosByKeyWord(String $keyword){
             $requete = "SELECT * FROM keywords 
             INNER JOIN keysympt ON (keywords.idk = keysympt.idk) 
