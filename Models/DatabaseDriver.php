@@ -1,5 +1,5 @@
 <?php
-    include 'config.php';
+    include '../config.php';
     include 'Symptome.php';
     include 'Patho.php';
     include 'Meridien.php';
