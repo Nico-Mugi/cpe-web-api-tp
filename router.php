@@ -28,6 +28,7 @@ switch ($request[1]) {
     case 'meridiens':
         // routes : /meridiens/all
         if ($request[2] != null && $request[2] == 'all') {
+            // $dbd->
         } else {
             echo ('error : not supported');
             http_response_code(400);
@@ -37,10 +38,26 @@ switch ($request[1]) {
     case 'symptomes':
         // routes : /symptomes/all
         //          /symptomes/:keyword
-        # code...
+        if ($request[2] != null) {
+            if($request[2] == 'all'){
+
+            }else{
+
+            }
+        } else {
+            echo ('error : not supported');
+            http_response_code(400);
+            exit();
+        }
         break;
     case 'pathologies':
-        # code...
+        // routes : /pathologies/all
+        if ($request[2] != null && $request[2] == 'all') {
+        } else {
+            echo ('error : not supported');
+            http_response_code(400);
+            exit();
+        }
         break;
 
     default:
