@@ -10,7 +10,7 @@ $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
 $input = json_decode(file_get_contents('php://input'), true);
 
 // check base URL
-if ($request[0] != 'api' || $request[1] == null) {
+if ($request[0] != 'api' || count($request) < 2) {
     echo ('error');
     http_response_code(404);
     exit();
@@ -28,7 +28,9 @@ switch ($request[1]) {
     case 'meridiens':
         // routes : /meridiens/all
         if ($request[2] != null && $request[2] == 'all') {
-            // $dbd->
+            $data = $dbd->getAllMeridien();
+            header('Content-Type: application/json');
+            echo json_encode($data);
         } else {
             echo ('error : not supported');
             http_response_code(400);
@@ -37,13 +39,10 @@ switch ($request[1]) {
         break;
     case 'symptomes':
         // routes : /symptomes/all
-        //          /symptomes/:keyword
-        if ($request[2] != null) {
-            if($request[2] == 'all'){
-
-            }else{
-
-            }
+        if ($request[2] != null && $request[2] == 'all') {
+            $data = $dbd->getAllSymptomes();
+            header('Content-Type: application/json');
+            echo json_encode($data);
         } else {
             echo ('error : not supported');
             http_response_code(400);
@@ -52,7 +51,17 @@ switch ($request[1]) {
         break;
     case 'pathologies':
         // routes : /pathologies/all
-        if ($request[2] != null && $request[2] == 'all') {
+        //          /pathologies/byKeyword/:keyword
+        if ($request[2] != null) {
+            if ($request[2] == 'all') {
+                $data = $dbd->getAllPatho();
+                header('Content-Type: application/json');
+                echo json_encode($data);
+            } elseif ($request[2] == 'byKeyword' && $request[3] != null) {
+                $data = $dbd->getPathosByKeyWord($request[3]);
+                header('Content-Type: application/json');
+                echo json_encode($data);
+            }
         } else {
             echo ('error : not supported');
             http_response_code(400);
@@ -66,3 +75,5 @@ switch ($request[1]) {
         exit();
         break;
 }
+
+http_response_code(200);
