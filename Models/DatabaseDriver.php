@@ -1,8 +1,14 @@
 <?php
-    include 'config.php';
     include 'Symptome.php';
     include 'Patho.php';
     include 'Meridien.php';
+
+    define('HOST', 'localhost');
+    define('USERNAME', 'postgres');
+    define('PASSWORD', 'postgres');
+    define('PORT', '5432');
+    define('DBNAME', 'postgres');
+
     class DatabaseDriver{
   
         // specify your own database credentials
@@ -12,12 +18,14 @@
         private $port = PORT;
         private $password = PASSWORD;
         public $conn;
+        
 
         
         public function __construct() {
             $this->conn = null;
             try{
                 $this->conn = new PDO("pgsql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name, $this->username, $this->password);
+                #$this->conn = new PDO('pgsql:host=192.168.56.101;port=5432;dbname=postgres', 'loi', 'loiloi');
                 $this->conn->exec("set names utf8");
             }catch(PDOException $exception){
                 error_log("Connection error: " . $exception->getMessage());
@@ -105,7 +113,7 @@
         }
 
         public function insertUser(String $username,String $password ,String $mail){
-            $requete = "INSERT INTO user VALUES (:user,:pass,:mail);";
+            $requete = "INSERT INTO public.user VALUES (:user,:pass,:mail);";
             $resultats = $this->conn->prepare($requete);
             $resultats->bindValue(":user", $username);
             $resultats->bindValue(":pass", $password);
@@ -115,20 +123,20 @@
                 return 0;
             } catch (\Throwable $th) {
                 echo $th;
+                error_log('Failed to insert user');
+                error_log($th);
                 return -1;
             }
         }
 
         public function getUserPassword(String $username){
-            $requete = "SELECT * FROM user where username =:user ";
+            $requete = "SELECT * FROM public.user where username =:user ";
             $resultats = $this->conn->prepare($requete);
             $resultats->bindValue(":user", $username);
             $resultats->execute();
             $password = $resultats->fetchAll(PDO::FETCH_ASSOC);
             return $password ;
         }
-
-        
 
     }
 ?>

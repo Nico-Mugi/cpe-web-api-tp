@@ -1,6 +1,8 @@
 <?php
-include 'Models/DatabaseDriver.php';
-//dzadaz
+include '../Models/DatabaseDriver.php';
+
+print_r($_POST);
+
 if (isset($_POST['reg_user'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -15,10 +17,13 @@ if (isset($_POST['reg_user'])) {
         $code_err = $dbd->insertUser($username,password_hash($password,PASSWORD_BCRYPT),$email);
         if($code_err ==-1){
             array_push($errors, "Failed to register user");
+            error_log($errors);
             return $errors;
         }else{
             return "User sucessfully registered , please log in";
         }
     }
+}
 
+header('Location: index.php')
 ?>
