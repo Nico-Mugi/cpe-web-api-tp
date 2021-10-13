@@ -9,13 +9,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
 $input = json_decode(file_get_contents('php://input'), true);
 
-// check base URL
-if ($request[0] != 'api' || count($request) < 2) {
-    echo ('error');
-    http_response_code(404);
-    exit();
-}
-
 // on ne supporte que les requetes GET
 if ($method != 'GET') {
     echo ('error : only GET supported');
@@ -25,10 +18,10 @@ if ($method != 'GET') {
 
 // traiter requête
 if (array_key_exists(1, $request)) {
-    switch ($request[1]) {
+    switch ($request[0]) {
         case 'meridiens':
             // routes : /meridiens/all
-            if (array_key_exists(2, $request) && $request[2] == 'all') {
+            if (array_key_exists(1, $request) && $request[1] == 'all') {
                 $data = $dbd->getAllMeridien();
                 header('Content-Type: application/json');
                 echo json_encode($data);
@@ -38,7 +31,7 @@ if (array_key_exists(1, $request)) {
             exit();
         case 'symptomes':
             // routes : /symptomes/all
-            if (array_key_exists(2, $request) && $request[2] == 'all') {
+            if (array_key_exists(1, $request) && $request[1] == 'all') {
                 $data = $dbd->getAllSymptomes();
                 header('Content-Type: application/json');
                 echo json_encode($data);
@@ -50,14 +43,14 @@ if (array_key_exists(1, $request)) {
         case 'pathologies':
             // routes : /pathologies/all
             //          /pathologies/byKeyword/:keyword
-            if (array_key_exists(2, $request)) {
-                if ($request[2] == 'all') {
+            if (array_key_exists(1, $request)) {
+                if ($request[1] == 'all') {
                     $data = $dbd->getAllPatho();
                     header('Content-Type: application/json');
                     echo json_encode($data);
                     break;
-                } elseif ($request[2] == 'byKeyword' && array_key_exists(3, $request)) {
-                    $data = $dbd->getPathosByKeyWord($request[3]);
+                } elseif ($request[1] == 'byKeyword' && array_key_exists(2, $request)) {
+                    $data = $dbd->getPathosByKeyWord($request[2]);
                     header('Content-Type: application/json');
                     echo json_encode($data);
                     break;
