@@ -1,7 +1,6 @@
-CREATE TABLE user (
+CREATE TABLE public.user (
     username    text,
     password    text,
     email        text,
-    PRIMARY KEY(mail)
+    PRIMARY KEY(email)
 );
-
