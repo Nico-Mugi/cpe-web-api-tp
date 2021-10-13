@@ -18,7 +18,6 @@
             $this->conn = null;
             try{
                 $this->conn = new PDO("pgsql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name, $this->username, $this->password);
-                #$this->conn = new PDO('pgsql:host=192.168.56.101;port=5432;dbname=postgres', 'loi', 'loiloi');
                 $this->conn->exec("set names utf8");
             }catch(PDOException $exception){
                 error_log("Connection error: " . $exception->getMessage());
